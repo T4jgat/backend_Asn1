@@ -1,25 +1,22 @@
-async function get() {
-    let obj
-    const data = await fetch("http://localhost:8000/auth/28")
-    obj = await data.json()
-    alert(obj.username)
+const url = 'http://192.168.0.100:8000/auth/registration'
+
+const form = document.getElementById("form")
+
+if (form) {
+    form.addEventListener('submit', async event => {
+        event.preventDefault()
+
+        try {
+            const response = await fetch(url, {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(Object.fromEntries(new FormData(form))),
+            })
+            console.log(await response.json())
+        } catch (err) {
+            console.log(err.message)
+        }
+    })
 }
-
-async function submitForm(e) {
-    e.preventDefault();
-
-    let myform = document.getElementById("loginForm");
-
-    let formData = new FormData(myform);
-
-    await fetch('http://localhost:8000/auth/registration', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json;charset=utf-8'
-        },
-        body: JSON.stringify(formData)
-    }).then(res => document.getElementById("root").innerHTML(res));
-}
-
-let myform = document.getElementById("loginForm");
-myform.addEventListener("submit", submitForm);

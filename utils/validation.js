@@ -3,7 +3,6 @@ import db from "../config/db.js"
 class Validation {
     async usernameValidation(username)  {
         const res = await db.query("SELECT * FROM users WHERE username=$1", [username])
-        console.log(res.rows)
         return res.rows.length !== 0
 
     }
